@@ -95,6 +95,49 @@
 
 <body>
 
+    <!-- Overlay Offline -->
+    <div id="offline-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #ffffff; z-index: 9999; justify-content: center; align-items: center; flex-direction: column; text-align: center; padding: 20px;">
+        <div class="icon-circle bg-kaizen" style="font-size: 4rem; width: 120px; height: 120px; margin-bottom: 25px;">📶</div>
+        <h2 class="fw-bold text-dark">Koneksi Internet Terputus</h2>
+        <p class="text-muted px-3" style="max-width: 400px;">Aplikasi memerlukan koneksi internet aktif. Hubungkan perangkat ke Wi-Fi atau data seluler lalu coba lagi.</p>
+        <button onclick="checkConnection()" class="btn btn-primary btn-go px-5 py-2 mt-3">PERIKSA KONEKSI</button>
+    </div>
+
+    <script>
+        function setOfflineUI(isOffline) {
+            const overlay = document.getElementById('offline-overlay');
+            if (overlay) {
+                overlay.style.display = isOffline ? 'flex' : 'none';
+            }
+        }
+
+        async function checkConnection() {
+            if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.Network) {
+                try {
+                    const status = await window.Capacitor.Plugins.Network.getStatus();
+                    setOfflineUI(!status.connected);
+                } catch (e) {
+                    setOfflineUI(!navigator.onLine);
+                }
+            } else {
+                setOfflineUI(!navigator.onLine);
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            checkConnection();
+
+            if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.Network) {
+                window.Capacitor.Plugins.Network.addListener('networkStatusChange', (status) => {
+                    setOfflineUI(!status.connected);
+                });
+            } else {
+                window.addEventListener('online', () => setOfflineUI(false));
+                window.addEventListener('offline', () => setOfflineUI(true));
+            }
+        });
+    </script>
+
     <div class="hero text-center">
         <div class="container">
             <div class="logo-wrapper">

@@ -9,7 +9,7 @@ const config: CapacitorConfig = {
 
 
     server: {
-        url: 'https://sen-recommends-precise-involve.trycloudflare.com',
+        url: 'https://merchants-vault-computing-interactions.trycloudflare.com/',
         cleartext: false,
         errorPath: '/index.html'
     }
