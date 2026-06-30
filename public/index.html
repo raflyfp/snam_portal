@@ -3,11 +3,25 @@
 
 <head>
     <script>
-        // Redirect to live URL if online to enable dynamic updates
+        // Coba hubungi server live, jika terhubung langsung redirect
         const LIVE_URL = 'https://sen-recommends-precise-involve.trycloudflare.com';
-        if (navigator.onLine) {
+        
+        // Buat controller untuk membatasi waktu tunggu ping (timeout 2.5 detik)
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 2500);
+
+        fetch(LIVE_URL + '/up', { 
+            mode: 'no-cors', 
+            cache: 'no-store',
+            signal: controller.signal 
+        })
+        .then(() => {
+            clearTimeout(timeoutId);
             window.location.href = LIVE_URL;
-        }
+        })
+        .catch((err) => {
+            console.log("Server live tidak terjangkau (offline mode aktif):", err);
+        });
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
