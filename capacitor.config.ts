@@ -11,7 +11,7 @@ const config: CapacitorConfig = {
     server: {
         url: 'https://merchants-vault-computing-interactions.trycloudflare.com/',
         cleartext: false,
-        errorPath: '/index.html'
+        errorPath: 'index.html'
     }
 
 };
