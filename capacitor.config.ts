@@ -6,10 +6,12 @@ const config: CapacitorConfig = {
 
     webDir: 'public',
 
+    /*
     server: {
         url: 'https://sen-recommends-precise-involve.trycloudflare.com',
         cleartext: false
     }
+    */
 };
 
 export default config;
