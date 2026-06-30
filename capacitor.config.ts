@@ -10,17 +10,9 @@ const config: CapacitorConfig = {
 
     server: {
         url: 'https://sen-recommends-precise-involve.trycloudflare.com',
-        cleartext: false
+        cleartext: false,
+        errorPath: '/index.html'
     }
-
-    /*
-    server: {
-        allowNavigation: [
-            'sen-recommends-precise-involve.trycloudflare.com',
-            '*.trycloudflare.com'
-        ]
-    }
-    */
 
 };
 
