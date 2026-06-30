@@ -101,7 +101,7 @@
                 <img src="{{ asset('logo.png') }}" alt="SNA Medika Logo" class="logo-img">
             </div>
 
-            <h1 class="display-5 fw-bold">SNAM PORTAL SYSTEM</h1>
+            <h1 class="display-5 fw-bold">SNAM PORTAL SYSTEMa</h1>
             <p class="lead mt-2 opacity-75">Pilih aplikasi untuk mulai bekerja</p>
         </div>
     </div>
@@ -110,7 +110,7 @@
         <div class="row justify-content-center g-4">
 
             <div class="col-md-5 col-lg-4">
-                <a href="http://192.168.11.6/kaizen/" class="card-link p-4 text-center">
+                <a href="/kaizen" class="card-link p-4 text-center">
                     <div class="icon-circle bg-kaizen">💡</div>
                     <h3 class="fw-bold text-dark">Aplikasi KAIZEN</h3>
                     <p class="text-muted">Input ide perbaikan & efisiensi berkelanjutan.</p>
@@ -119,7 +119,7 @@
             </div>
 
             <div class="col-md-5 col-lg-4">
-                <a href="http://192.168.11.6/eva/login" class="card-link p-4 text-center">
+                <a href="/eva" class="card-link p-4 text-center">
                     <div class="icon-circle bg-eva">📈</div>
                     <h3 class="fw-bold text-dark">Aplikasi EVA</h3>
                     <p class="text-muted">Penilaian Leadership & Culture karyawan.</p>

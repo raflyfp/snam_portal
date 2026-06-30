@@ -3,7 +3,8 @@
     "private": true,
     "type": "module",
     "scripts": {
-        "build": "vite build",
+        "build": "vite build && php artisan tinker --execute=\"file_put_contents('public/index.html', view('welcome')->render())\"",
+        "compile-html": "php artisan tinker --execute=\"file_put_contents('public/index.html', view('welcome')->render())\"",
         "dev": "vite"
     },
     "devDependencies": {
