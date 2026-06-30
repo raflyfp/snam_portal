@@ -7,15 +7,15 @@
     <title>Portal Aplikasi SNA Medika</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <link rel="manifest" href="{{ asset('build/manifest.webmanifest') }}">
+    <link rel="manifest" href="{{ asset('build/manifest.webmanifest') }}" crossorigin="use-credentials">
     <meta name="theme-color" content="#0d6efd">
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/build/sw.js', { scope: '/build/' })
-                    .then(reg => console.log('Service Worker registered successfully:', reg.scope))
-                    .catch(err => console.error('Service Worker registration failed:', err));
-            });
+                navigator.serviceWorker.register('/build/sw.js')
+                    .then(reg => console.log('SW OK', reg))
+                    .catch(console.error)
+            })
         }
     </script>
     <style>
@@ -98,7 +98,7 @@
     <div class="hero text-center">
         <div class="container">
             <div class="logo-wrapper">
-                <img src="logo_snam.png" alt="SNA Medika Logo" class="logo-img">
+                <img src="{{ asset('logo.png') }}" alt="SNA Medika Logo" class="logo-img">
             </div>
 
             <h1 class="display-5 fw-bold">SNAM PORTAL SYSTEM</h1>
@@ -110,7 +110,7 @@
         <div class="row justify-content-center g-4">
 
             <div class="col-md-5 col-lg-4">
-                <a href="/kaizen" class="card-link p-4 text-center">
+                <a href="http://192.168.11.6/kaizen/" class="card-link p-4 text-center">
                     <div class="icon-circle bg-kaizen">💡</div>
                     <h3 class="fw-bold text-dark">Aplikasi KAIZEN</h3>
                     <p class="text-muted">Input ide perbaikan & efisiensi berkelanjutan.</p>
@@ -119,7 +119,7 @@
             </div>
 
             <div class="col-md-5 col-lg-4">
-                <a href="/eva" class="card-link p-4 text-center">
+                <a href="http://192.168.11.6/eva/login" class="card-link p-4 text-center">
                     <div class="icon-circle bg-eva">📈</div>
                     <h3 class="fw-bold text-dark">Aplikasi EVA</h3>
                     <p class="text-muted">Penilaian Leadership & Culture karyawan.</p>
@@ -128,7 +128,7 @@
             </div>
 
             <div class="col-md-5 col-lg-4">
-                <a href="/helpdesk" class="card-link p-4 text-center">
+                <a href="http://192.168.11.6/helpdesk/" class="card-link p-4 text-center">
                     <div class="icon-circle bg-eva">🛠️</div>
                     <h3 class="fw-bold text-dark">Aplikasi Ticketing</h3>
                     <p class="text-muted">Layanan IT, GA, dan Mekanik</p>

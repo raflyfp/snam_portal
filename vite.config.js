@@ -18,24 +18,33 @@ export default defineConfig({
             },
 
             manifest: {
-                name: 'SNA Medika Portal',
-                short_name: 'SNA Medika',
-                start_url: '/',
+                id: "/",
+                name: "SNA Medika Portal",
+                short_name: "SNA Medika",
+                description: "Portal aplikasi internal PT SNA Medika",
+
+                start_url: "/",
+
                 scope: "/",
-                display: 'standalone',
-                background_color: '#ffffff',
-                theme_color: '#0d6efd',
+
+                display: "standalone",
+
+                orientation: "portrait",
+
+                background_color: "#ffffff",
+
+                theme_color: "#0d6efd",
 
                 icons: [
                     {
-                        src: '/icons/icon (2).png',
-                        sizes: '192x192',
-                        type: 'image/png'
+                        src: "/icons/icon-192.png",
+                        sizes: "192x192",
+                        type: "image/png"
                     },
                     {
-                        src: '/icons/icon (1).png',
-                        sizes: '512x512',
-                        type: 'image/png'
+                        src: "/icons/icon-512.png",
+                        sizes: "512x512",
+                        type: "image/png"
                     }
                 ]
             },
