@@ -13,6 +13,12 @@ const config: CapacitorConfig = {
         cleartext: false
     }
     */
+    server: {
+        allowNavigation: [
+            'sen-recommends-precise-involve.trycloudflare.com',
+            '*.trycloudflare.com'
+        ]
+    }
 
 };
 

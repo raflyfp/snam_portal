@@ -101,7 +101,7 @@
                 <img src="{{ asset('logo.png') }}" alt="SNA Medika Logo" class="logo-img">
             </div>
 
-            <h1 class="display-5 fw-bold">SNAM PORTAL SYSTEMaa</h1>
+            <h1 class="display-5 fw-bold">SNAM PORTAL SYSTEM</h1>
             <p class="lead mt-2 opacity-75">Pilih aplikasi untuk mulai bekerja</p>
         </div>
     </div>
