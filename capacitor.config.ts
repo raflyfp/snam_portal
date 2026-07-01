@@ -11,7 +11,7 @@ const config: CapacitorConfig = {
     server: {
         url: 'https://portal.eclairs.my.id/',
         cleartext: false,
-        errorPath: 'index.html',
+        // errorPath: 'index.html',
         allowNavigation: [
             '*.dpdns.org',
             'www.snam110.dpdns.org',
