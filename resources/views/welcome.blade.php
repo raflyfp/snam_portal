@@ -455,14 +455,14 @@
                                 document.documentElement.appendChild(header);
                             }
 
-                            // 2. Geser semua elemen web tujuan yang berposisi fixed top:0 agar turun 60px secara aman
-                            var allElements = document.getElementsByTagName('*');
-                            for (var i = 0; i < allElements.length; i++) {
-                                var style = window.getComputedStyle(allElements[i]);
-                                if (style.position === 'fixed' && style.top === '0px' && allElements[i].id !== 'snam-inapp-header') {
-                                    allElements[i].style.setProperty('top', '60px', 'important');
+                            // 2. Geser HANYA elemen navigasi/header bawaan web tujuan agar tidak tertutup header portal
+                            var headers = document.querySelectorAll('nav, header, .navbar, .main-header');
+                            headers.forEach(function(el) {
+                                var style = window.getComputedStyle(el);
+                                if ((style.position === 'fixed' || style.position === 'absolute') && style.top === '0px') {
+                                    el.style.setProperty('top', '60px', 'important');
                                 }
-                            }
+                            });
                         `
                     });
                 });
