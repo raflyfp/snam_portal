@@ -1,0 +1,68 @@
+name: Build iOS IPA
+
+on:
+  push:
+    branches:
+      - main
+      - master
+
+jobs:
+  build-ios:
+    runs-on: macos-latest
+
+    steps:
+      # 1. Ambil kodingan terbaru dari repo
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      # 2. Setup Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      # 3. Setup PHP (Untuk Laravel Tinker compiler HTML)
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+
+      # 4. Install dependensi NPM
+      - name: Install Dependencies
+        run: npm ci
+
+      # 5. Compile file HTML static Laravel
+      - name: Compile Laravel Blade to HTML
+        run: php artisan tinker --execute="file_put_contents('public/index.html', view('welcome')->render())"
+
+      # 6. Tambahkan platform iOS & Sync Capacitor
+      - name: Capacitor Sync
+        run: |
+          npx cap add ios
+          npx cap sync ios
+
+      # 7. Bangun Proyek Xcode ke file Archive (.xcarchive)
+      - name: Build Xcode Project
+        run: |
+          xcodebuild -workspace ios/App/App.xcworkspace \
+                     -scheme App \
+                     -sdk iphoneos \
+                     -configuration Release \
+                     archive -archivePath ios/App/App.xcarchive \
+                     CODE_SIGNING_ALLOWED=NO
+
+      # 8. Konversi Archive ke IPA (Developer/Ad-Hoc Build)
+      - name: Create IPA (Unsigned)
+        run: |
+          mkdir -p Payload
+          cp -r ios/App/App.xcarchive/Products/Applications/App.app Payload/
+          zip -r App.ipa Payload
+          rm -rf Payload
+
+      # 9. Upload file .ipa ke halaman GitHub Actions agar bisa didownload
+      - name: Upload IPA Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: snam-portal-ios-ipa
+          path: App.ipa
