@@ -99,7 +99,7 @@
     $apps = [
         [
             'name' => 'Aplikasi KAIZEN',
-            'url' => 'https://www.snam110.dpdns.org/kaizen',
+            'url' => 'https://snam110.dpdns.org/kaizen/',
             'icon' => '💡',
             'desc' => 'Input ide perbaikan & efisiensi berkelanjutan.',
             'btn_text' => 'MASUK KAIZEN',
@@ -108,7 +108,7 @@
         ],
         [
             'name' => 'Aplikasi EVA',
-            'url' => 'https://www.snam110.dpdns.org/eva',
+            'url' => 'https://snam110.dpdns.org/eva/',
             'icon' => '📈',
             'desc' => 'Penilaian Leadership & Culture karyawan.',
             'btn_text' => 'MASUK EVA',
@@ -117,7 +117,7 @@
         ],
         [
             'name' => 'Aplikasi Ticketing',
-            'url' => 'https://www.snam110.dpdns.org/helpdesk',
+            'url' => 'https://snam110.dpdns.org/helpdesk/',
             'icon' => '🛠️',
             'desc' => 'Layanan IT, GA, dan Mekanik',
             'btn_text' => 'MASUK TICKETING',
