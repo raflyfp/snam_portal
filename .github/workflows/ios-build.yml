@@ -44,12 +44,21 @@ jobs:
       - name: Compile Laravel Blade to HTML
         run: php artisan tinker --execute="file_put_contents('public/index.html', view('welcome')->render())"
 
-      # 7. Hapus folder ios lama & buat ulang secara bersih agar tidak ada file Xcode yang hilang
+      # 7. Hapus folder ios lama, buat ulang, sync, dan jalankan pod install
       - name: Capacitor Sync
         run: |
           rm -rf ios
           npx cap add ios
           npx cap sync ios
+          cd ios/App && pod install
+
+      # Step Debug untuk memeriksa file di dalam folder iOS
+      - name: Debug List iOS Directory
+        run: |
+          echo "=== LISTING IOS DIR ==="
+          ls -la ios
+          echo "=== LISTING IOS/APP DIR ==="
+          ls -la ios/App
 
       # 7. Bangun Proyek Xcode ke file Archive (.xcarchive)
       - name: Build Xcode Project
