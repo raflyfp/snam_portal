@@ -95,6 +95,38 @@
 
 <body>
 
+    @php
+    $apps = [
+        [
+            'name' => 'Aplikasi KAIZEN',
+            'url' => 'https://www.snam110.dpdns.org/kaizen',
+            'icon' => '💡',
+            'desc' => 'Input ide perbaikan & efisiensi berkelanjutan.',
+            'btn_text' => 'MASUK KAIZEN',
+            'btn_class' => 'btn-primary',
+            'bg_class' => 'bg-kaizen'
+        ],
+        [
+            'name' => 'Aplikasi EVA',
+            'url' => 'https://www.snam110.dpdns.org/eva',
+            'icon' => '📈',
+            'desc' => 'Penilaian Leadership & Culture karyawan.',
+            'btn_text' => 'MASUK EVA',
+            'btn_class' => 'btn-success',
+            'bg_class' => 'bg-eva'
+        ],
+        [
+            'name' => 'Aplikasi Ticketing',
+            'url' => 'https://www.snam110.dpdns.org/helpdesk',
+            'icon' => '🛠️',
+            'desc' => 'Layanan IT, GA, dan Mekanik',
+            'btn_text' => 'MASUK TICKETING',
+            'btn_class' => 'btn-secondary text-white',
+            'bg_class' => 'bg-eva'
+        ]
+    ];
+    @endphp
+
     <!-- Overlay Offline -->
     <div id="offline-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #ffffff; z-index: 9999; justify-content: center; align-items: center; flex-direction: column; text-align: center; padding: 20px;">
         <div class="icon-circle bg-kaizen" style="font-size: 4rem; width: 120px; height: 120px; margin-bottom: 25px;">📶</div>
@@ -135,24 +167,6 @@
                 window.addEventListener('online', () => setOfflineUI(false));
                 window.addEventListener('offline', () => setOfflineUI(true));
             }
-
-            // Intercept link eksternal agar terbuka di dalam aplikasi menggunakan Capacitor Browser
-            document.querySelectorAll('.card-link').forEach(link => {
-                link.addEventListener('click', async (e) => {
-                    if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.Browser) {
-                        e.preventDefault();
-                        try {
-                            await window.Capacitor.Plugins.Browser.open({
-                                url: link.href,
-                                toolbarColor: '#0d6efd' // Warna navbar disamakan dengan tema portal
-                            });
-                        } catch (err) {
-                            console.error('Gagal menggunakan Capacitor Browser, dialihkan ke fallback:', err);
-                            window.location.href = link.href;
-                        }
-                    }
-                });
-            });
         });
     </script>
 
@@ -170,32 +184,16 @@
     <div class="container">
         <div class="row justify-content-center g-4">
 
+            @foreach($apps as $app)
             <div class="col-md-5 col-lg-4">
-                <a href="https://www.snam110.dpdns.org/kaizen" class="card-link p-4 text-center">
-                    <div class="icon-circle bg-kaizen">💡</div>
-                    <h3 class="fw-bold text-dark">Aplikasi KAIZEN</h3>
-                    <p class="text-muted">Input ide perbaikan & efisiensi berkelanjutan.</p>
-                    <div class="btn btn-primary btn-go w-100 mt-3">MASUK KAIZEN</div>
+                <a href="{{ $app['url'] }}" class="card-link p-4 text-center">
+                    <div class="icon-circle {{ $app['bg_class'] }}">{{ $app['icon'] }}</div>
+                    <h3 class="fw-bold text-dark">{{ $app['name'] }}</h3>
+                    <p class="text-muted">{{ $app['desc'] }}</p>
+                    <div class="btn {{ $app['btn_class'] }} btn-go w-100 mt-3">{{ $app['btn_text'] }}</div>
                 </a>
             </div>
-
-            <div class="col-md-5 col-lg-4">
-                <a href="https://www.snam110.dpdns.org/eva" class="card-link p-4 text-center">
-                    <div class="icon-circle bg-eva">📈</div>
-                    <h3 class="fw-bold text-dark">Aplikasi EVA</h3>
-                    <p class="text-muted">Penilaian Leadership & Culture karyawan.</p>
-                    <div class="btn btn-success btn-go w-100 mt-3">MASUK EVA</div>
-                </a>
-            </div>
-
-            <div class="col-md-5 col-lg-4">
-                <a href="https://www.snam110.dpdns.org/helpdesk" class="card-link p-4 text-center">
-                    <div class="icon-circle bg-eva">🛠️</div>
-                    <h3 class="fw-bold text-dark">Aplikasi Ticketing</h3>
-                    <p class="text-muted">Layanan IT, GA, dan Mekanik</p>
-                    <div class="btn btn-secondary btn-go w-100 mt-3 text-white">MASUK TICKETING</div>
-                </a>
-            </div>
+            @endforeach
 
         </div>
 

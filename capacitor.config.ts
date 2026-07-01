@@ -11,7 +11,11 @@ const config: CapacitorConfig = {
     server: {
         url: 'https://portal.eclairs.my.id/',
         cleartext: false,
-        errorPath: 'index.html'
+        errorPath: 'index.html',
+        allowNavigation: [
+            '*.dpdns.org',
+            '*.eclairs.my.id'
+        ]
     }
 
 };
