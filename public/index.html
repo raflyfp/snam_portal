@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portal Aplikasi SNA Medika</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="preload" as="style" href="http://localhost/build/assets/app-7T_arPNu.css" /><link rel="modulepreload" as="script" href="http://localhost/build/assets/app-CIomGrQN.js" /><link rel="stylesheet" href="http://localhost/build/assets/app-7T_arPNu.css" /><script type="module" src="http://localhost/build/assets/app-CIomGrQN.js"></script>    <link rel="manifest" href="http://localhost/build/manifest.webmanifest" crossorigin="use-credentials">
+    <link rel="preload" as="style" href="https://wiring-drier-zestfully.ngrok-free.dev/build/assets/app-7T_arPNu.css" /><link rel="modulepreload" as="script" href="https://wiring-drier-zestfully.ngrok-free.dev/build/assets/app-CIomGrQN.js" /><link rel="stylesheet" href="https://wiring-drier-zestfully.ngrok-free.dev/build/assets/app-7T_arPNu.css" /><script type="module" src="https://wiring-drier-zestfully.ngrok-free.dev/build/assets/app-CIomGrQN.js"></script>    <link rel="manifest" href="https://wiring-drier-zestfully.ngrok-free.dev/build/manifest.webmanifest" crossorigin="use-credentials">
     <meta name="theme-color" content="#0d6efd">
     <script>
         if ('serviceWorker' in navigator) {
@@ -134,13 +134,31 @@
                 window.addEventListener('online', () => setOfflineUI(false));
                 window.addEventListener('offline', () => setOfflineUI(true));
             }
+
+            // Intercept link eksternal agar terbuka di dalam aplikasi menggunakan Capacitor Browser
+            document.querySelectorAll('.card-link').forEach(link => {
+                link.addEventListener('click', async (e) => {
+                    if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.Browser) {
+                        e.preventDefault();
+                        try {
+                            await window.Capacitor.Plugins.Browser.open({
+                                url: link.href,
+                                toolbarColor: '#0d6efd' // Warna navbar disamakan dengan tema portal
+                            });
+                        } catch (err) {
+                            console.error('Gagal menggunakan Capacitor Browser, dialihkan ke fallback:', err);
+                            window.location.href = link.href;
+                        }
+                    }
+                });
+            });
         });
     </script>
 
     <div class="hero text-center">
         <div class="container">
             <div class="logo-wrapper">
-                <img src="http://localhost/logo.png" alt="SNA Medika Logo" class="logo-img">
+                <img src="https://wiring-drier-zestfully.ngrok-free.dev/logo.png" alt="SNA Medika Logo" class="logo-img">
             </div>
 
             <h1 class="display-5 fw-bold">SNAM PORTAL SYSTEM</h1>

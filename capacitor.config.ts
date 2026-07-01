@@ -9,7 +9,7 @@ const config: CapacitorConfig = {
 
 
     server: {
-        url: 'https://merchants-vault-computing-interactions.trycloudflare.com/',
+        url: 'https://portal.eclairs.my.id/',
         cleartext: false,
         errorPath: 'index.html'
     }

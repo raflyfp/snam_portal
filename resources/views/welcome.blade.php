@@ -135,6 +135,24 @@
                 window.addEventListener('online', () => setOfflineUI(false));
                 window.addEventListener('offline', () => setOfflineUI(true));
             }
+
+            // Intercept link eksternal agar terbuka di dalam aplikasi menggunakan Capacitor Browser
+            document.querySelectorAll('.card-link').forEach(link => {
+                link.addEventListener('click', async (e) => {
+                    if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.Browser) {
+                        e.preventDefault();
+                        try {
+                            await window.Capacitor.Plugins.Browser.open({
+                                url: link.href,
+                                toolbarColor: '#0d6efd' // Warna navbar disamakan dengan tema portal
+                            });
+                        } catch (err) {
+                            console.error('Gagal menggunakan Capacitor Browser, dialihkan ke fallback:', err);
+                            window.location.href = link.href;
+                        }
+                    }
+                });
+            });
         });
     </script>
 
