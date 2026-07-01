@@ -353,9 +353,12 @@
                 // Buka InAppBrowser dengan menyembunyikan address bar default (location=no)
                 const ref = window.cordova.InAppBrowser.open(url, '_blank', 'location=no,zoom=no,hardwareback=yes,clearcache=yes,clearsessioncache=yes');
 
-                // Deteksi ketika user me-redirect balik ke portal, maka close browser overlay secara instan
+                // Deteksi ketika user me-redirect balik ke portal atau meminta exit, maka close browser overlay secara instan
                 ref.addEventListener('loadstart', function(event) {
-                    if (event.url.includes('portal.eclairs.my.id')) {
+                    if (event.url.includes('portal.eclairs.my.id/exit-app')) {
+                        ref.close();
+                        exitApplication();
+                    } else if (event.url.includes('portal.eclairs.my.id')) {
                         ref.close();
                     }
                 });
@@ -432,7 +435,7 @@
                                     </div>
                                     <div class="snam-actions">
                                         <button class="btn-snam-action" onclick="window.location.href='https://portal.eclairs.my.id'">Menu Portal</button>
-                                        <button class="btn-snam-action btn-snam-exit" onclick="navigator.app.exitApp()">Exit</button>
+                                        <button class="btn-snam-action btn-snam-exit" onclick="window.location.href='https://portal.eclairs.my.id/exit-app'">Exit</button>
                                     </div>
                                 \`;
                                 document.body.appendChild(header);
