@@ -1,0 +1,83 @@
+name: Build iOS IPA
+
+on:
+  push:
+    branches:
+      - main
+      - master
+
+jobs:
+  build-ios:
+    runs-on: macos-latest
+
+    steps:
+      # 1. Ambil kodingan terbaru dari repo
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      # 2. Setup Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          cache: 'npm'
+
+      # 3. Setup PHP & Composer (Untuk Laravel Tinker compiler HTML)
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          tools: composer:v2
+
+      # 4. Copy .env and Install Composer dependencies
+      - name: Install Composer Dependencies
+        run: |
+          cp .env.example .env
+          composer install --no-dev --prefer-dist --no-interaction --optimize-autoloader
+          php artisan key:generate
+
+      # 5. Install dependensi NPM
+      - name: Install NPM Dependencies
+        run: npm ci
+
+      # 6. Compile file HTML static Laravel
+      - name: Compile Laravel Blade to HTML
+        run: php artisan tinker --execute="file_put_contents('public/index.html', view('welcome')->render())"
+
+      # 7. Hapus folder ios lama, buat ulang, dan sync (menggunakan SPM bawaan)
+      - name: Capacitor Sync
+        run: |
+          rm -rf ios
+          npx cap add ios
+          npx cap sync ios
+
+      # Step Debug untuk memeriksa file di dalam folder iOS
+      - name: Debug List iOS Directory
+        run: |
+          echo "=== LISTING IOS DIR ==="
+          ls -la ios
+          echo "=== LISTING IOS/APP DIR ==="
+          ls -la ios/App
+
+      # 8. Bangun Proyek Xcode khusus untuk Simulator (iphonesimulator)
+      - name: Build Xcode Project
+        run: |
+          xcodebuild -project ios/App/App.xcodeproj \
+                     -scheme App \
+                     -sdk iphonesimulator \
+                     -configuration Release \
+                     -derivedDataPath build \
+                     CODE_SIGNING_ALLOWED=NO
+
+      # 9. Kompresi folder App.app ke dalam file ZIP untuk Appetize.io
+      - name: Zip App for Appetize.io
+        run: |
+          cd build/Build/Products/Release-iphonesimulator
+          zip -r ../../../../App.zip App.app
+
+      # 10. Upload file App.zip ke halaman GitHub Actions agar bisa diunduh
+      - name: Upload Zip Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: snam-portal-ios-simulator-zip
+          path: App.zip
