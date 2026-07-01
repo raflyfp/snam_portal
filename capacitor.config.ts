@@ -14,7 +14,9 @@ const config: CapacitorConfig = {
         errorPath: 'index.html',
         allowNavigation: [
             '*.dpdns.org',
-            '*.eclairs.my.id'
+            'www.snam110.dpdns.org',
+            '*.eclairs.my.id',
+            'portal.eclairs.my.id'
         ]
     }
 
