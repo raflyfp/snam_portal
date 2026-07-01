@@ -44,10 +44,11 @@ jobs:
       - name: Compile Laravel Blade to HTML
         run: php artisan tinker --execute="file_put_contents('public/index.html', view('welcome')->render())"
 
-      # 7. Tambahkan platform iOS (jika belum ada) & Sync Capacitor
+      # 7. Hapus folder ios lama & buat ulang secara bersih agar tidak ada file Xcode yang hilang
       - name: Capacitor Sync
         run: |
-          [ -d "ios" ] || npx cap add ios
+          rm -rf ios
+          npx cap add ios
           npx cap sync ios
 
       # 7. Bangun Proyek Xcode ke file Archive (.xcarchive)
