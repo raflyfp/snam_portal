@@ -353,22 +353,35 @@
                 // Buka InAppBrowser dengan menyembunyikan address bar default (location=no)
                 const ref = window.cordova.InAppBrowser.open(url, '_blank', 'location=no,zoom=no,hardwareback=yes,clearcache=yes,clearsessioncache=yes');
 
-                // Deteksi ketika user me-redirect balik ke portal atau meminta exit, maka close browser overlay secara instan
+                // Deteksi ketika user me-redirect balik ke portal, meminta exit, atau mendownload PDF
                 ref.addEventListener('loadstart', function(event) {
+                    const urlLower = event.url.toLowerCase();
+                    
                     if (event.url.includes('portal.eclairs.my.id/exit-app')) {
                         ref.close();
                         exitApplication();
                     } else if (event.url.includes('portal.eclairs.my.id')) {
                         ref.close();
+                    } else if (
+                        urlLower.endsWith('.pdf') || 
+                        urlLower.includes('.pdf?') || 
+                        urlLower.includes('download') || 
+                        urlLower.includes('export') ||
+                        urlLower.includes('print')
+                    ) {
+                        // Jika mendeteksi link PDF / download, buka di browser sistem HP agar proses download/view berjalan
+                        window.cordova.InAppBrowser.open(event.url, '_system');
                     }
                 });
 
                 // Ketika halaman sukses dimuat, suntikkan header SNAM PORTAL kustom ke halaman sub-aplikasi
                 ref.addEventListener('loadstop', function() {
-                    // Suntikkan CSS Header
+                    // Suntikkan CSS Header (tanpa mentransformasi body agar modal tidak rusak)
                     ref.insertCSS({
                         code: `
-                            body { padding-top: 60px !important; }
+                            body {
+                                padding-top: 60px !important;
+                            }
                             #snam-inapp-header {
                                 position: fixed !important;
                                 top: 0 !important;
@@ -422,9 +435,10 @@
                         `
                     });
 
-                    // Suntikkan Element HTML Header
+                    // Suntikkan Element HTML Header ke document.documentElement (html)
                     ref.executeScript({
                         code: `
+                            // 1. Pasang header portal jika belum ada
                             if (!document.getElementById('snam-inapp-header')) {
                                 var header = document.createElement('div');
                                 header.id = 'snam-inapp-header';
@@ -438,7 +452,16 @@
                                         <button class="btn-snam-action btn-snam-exit" onclick="window.location.href='https://portal.eclairs.my.id/exit-app'">Exit</button>
                                     </div>
                                 \`;
-                                document.body.appendChild(header);
+                                document.documentElement.appendChild(header);
+                            }
+
+                            // 2. Geser semua elemen web tujuan yang berposisi fixed top:0 agar turun 60px secara aman
+                            var allElements = document.getElementsByTagName('*');
+                            for (var i = 0; i < allElements.length; i++) {
+                                var style = window.getComputedStyle(allElements[i]);
+                                if (style.position === 'fixed' && style.top === '0px' && allElements[i].id !== 'snam-inapp-header') {
+                                    allElements[i].style.setProperty('top', '60px', 'important');
+                                }
                             }
                         `
                     });
