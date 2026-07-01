@@ -22,17 +22,25 @@ jobs:
           node-version: '18'
           cache: 'npm'
 
-      # 3. Setup PHP (Untuk Laravel Tinker compiler HTML)
+      # 3. Setup PHP & Composer (Untuk Laravel Tinker compiler HTML)
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.2'
+          tools: composer:v2
 
-      # 4. Install dependensi NPM
-      - name: Install Dependencies
+      # 4. Copy .env and Install Composer dependencies
+      - name: Install Composer Dependencies
+        run: |
+          cp .env.example .env
+          composer install --no-dev --prefer-dist --no-interaction --optimize-autoloader
+          php artisan key:generate
+
+      # 5. Install dependensi NPM
+      - name: Install NPM Dependencies
         run: npm ci
 
-      # 5. Compile file HTML static Laravel
+      # 6. Compile file HTML static Laravel
       - name: Compile Laravel Blade to HTML
         run: php artisan tinker --execute="file_put_contents('public/index.html', view('welcome')->render())"
 
