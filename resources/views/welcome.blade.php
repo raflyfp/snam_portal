@@ -350,8 +350,8 @@
         // Fungsi membuka aplikasi eksternal menggunakan InAppBrowser
         function openApp(url) {
             if (window.cordova && window.cordova.InAppBrowser) {
-                // Buka InAppBrowser dengan menyembunyikan address bar default (location=no)
-                const ref = window.cordova.InAppBrowser.open(url, '_blank', 'location=no,zoom=no,hardwareback=yes,clearcache=yes,clearsessioncache=yes');
+                // Buka InAppBrowser dengan mode fullscreen di iOS (presentationstyle=fullscreen)
+                const ref = window.cordova.InAppBrowser.open(url, '_blank', 'location=no,toolbar=no,zoom=no,hardwareback=yes,clearcache=yes,clearsessioncache=yes,presentationstyle=fullscreen');
 
                 // Deteksi ketika user me-redirect balik ke portal, meminta exit, atau mendownload PDF
                 ref.addEventListener('loadstart', function(event) {
@@ -376,24 +376,26 @@
 
                 // Ketika halaman sukses dimuat, suntikkan header SNAM PORTAL kustom ke halaman sub-aplikasi
                 ref.addEventListener('loadstop', function() {
-                    // Suntikkan CSS Header (tanpa mentransformasi body agar modal tidak rusak)
+                    // Suntikkan CSS Header (menggunakan env(safe-area-inset-top) agar aman dari poni iPhone)
                     ref.insertCSS({
                         code: `
                             body {
-                                padding-top: 60px !important;
+                                padding-top: calc(60px + env(safe-area-inset-top, 0px)) !important;
                             }
                             #snam-inapp-header {
                                 position: fixed !important;
                                 top: 0 !important;
                                 left: 0 !important;
                                 width: 100% !important;
-                                height: 60px !important;
+                                height: calc(60px + env(safe-area-inset-top, 0px)) !important;
+                                padding-top: env(safe-area-inset-top, 0px) !important;
                                 background: linear-gradient(135deg, #0d47a1 30%, #0d6efd 100%) !important;
                                 color: white !important;
                                 display: flex !important;
                                 align-items: center !important;
                                 justify-content: space-between !important;
-                                padding: 0 15px !important;
+                                padding-left: 15px !important;
+                                padding-right: 15px !important;
                                 z-index: 2147483647 !important;
                                 box-shadow: 0 2px 10px rgba(0,0,0,0.3) !important;
                                 box-sizing: border-box !important;
@@ -455,14 +457,34 @@
                                 document.documentElement.appendChild(header);
                             }
 
-                            // 2. Geser elemen navigasi/header dan sidebar bawaan web tujuan agar tidak tertutup header portal
+                            // 2. Geser elemen navigasi/header dan sidebar bawaan web tujuan agar tidak tertutup header portal (menyesuaikan safe-area)
                             var headers = document.querySelectorAll('nav, header, .navbar, .main-header, aside, .main-sidebar, .sidebar, .app-sidebar, .aside');
                             headers.forEach(function(el) {
                                 var style = window.getComputedStyle(el);
                                 if ((style.position === 'fixed' || style.position === 'absolute') && style.top === '0px') {
-                                    el.style.setProperty('top', '60px', 'important');
+                                    el.style.setProperty('top', 'calc(60px + env(safe-area-inset-top, 0px))', 'important');
                                 }
                             });
+
+                            // 3. Intercept klik pada semua link download/PDF di dalam web tujuan
+                            document.addEventListener('click', function(e) {
+                                var anchor = e.target.closest('a');
+                                if (anchor && anchor.href) {
+                                    var hrefLower = anchor.href.toLowerCase();
+                                    if (
+                                        hrefLower.endsWith('.pdf') ||
+                                        hrefLower.includes('.pdf?') ||
+                                        anchor.hasAttribute('download') ||
+                                        hrefLower.includes('download') ||
+                                        hrefLower.includes('export') ||
+                                        hrefLower.includes('print')
+                                    ) {
+                                        e.preventDefault();
+                                        // Buka di browser sistem eksternal
+                                        window.open(anchor.href, '_system');
+                                    }
+                                }
+                            }, true);
                         `
                     });
                 });

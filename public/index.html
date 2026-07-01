@@ -6,7 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portal Aplikasi SNA Medika</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="preload" as="style" href="https://wiring-drier-zestfully.ngrok-free.dev/build/assets/app-7T_arPNu.css" /><link rel="modulepreload" as="script" href="https://wiring-drier-zestfully.ngrok-free.dev/build/assets/app-CIomGrQN.js" /><link rel="stylesheet" href="https://wiring-drier-zestfully.ngrok-free.dev/build/assets/app-7T_arPNu.css" /><script type="module" src="https://wiring-drier-zestfully.ngrok-free.dev/build/assets/app-CIomGrQN.js"></script>    <link rel="manifest" href="https://wiring-drier-zestfully.ngrok-free.dev/build/manifest.webmanifest" crossorigin="use-credentials">
+    <link rel="preload" as="style" href="https://wiring-drier-zestfully.ngrok-free.dev/build/assets/app-7T_arPNu.css" />
+    <link rel="modulepreload" as="script"
+        href="https://wiring-drier-zestfully.ngrok-free.dev/build/assets/app-CIomGrQN.js" />
+    <link rel="stylesheet" href="https://wiring-drier-zestfully.ngrok-free.dev/build/assets/app-7T_arPNu.css" />
+    <script type="module" src="https://wiring-drier-zestfully.ngrok-free.dev/build/assets/app-CIomGrQN.js"></script>
+    <link rel="manifest" href="https://wiring-drier-zestfully.ngrok-free.dev/build/manifest.webmanifest"
+        crossorigin="use-credentials">
     <meta name="theme-color" content="#0d6efd">
     <script>
         if ('serviceWorker' in navigator) {
@@ -83,7 +89,6 @@
             color: #388e3c;
         }
 
-    <style>
         body {
             background-color: #f0f2f5;
             font-family: 'Segoe UI', Tahoma, sans-serif;
@@ -237,7 +242,7 @@
 
 <body>
 
-    
+
     <!-- Persistent Header -->
     <header class="portal-header">
         <div class="header-left">
@@ -250,10 +255,13 @@
     </header>
 
     <!-- Overlay Offline -->
-    <div id="offline-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #ffffff; z-index: 9999; justify-content: center; align-items: center; flex-direction: column; text-align: center; padding: 20px;">
-        <div class="icon-circle bg-kaizen" style="font-size: 4rem; width: 120px; height: 120px; margin-bottom: 25px;">📶</div>
+    <div id="offline-overlay"
+        style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #ffffff; z-index: 9999; justify-content: center; align-items: center; flex-direction: column; text-align: center; padding: 20px;">
+        <div class="icon-circle bg-kaizen" style="font-size: 4rem; width: 120px; height: 120px; margin-bottom: 25px;">📶
+        </div>
         <h2 class="fw-bold text-dark">Koneksi Internet Terputus</h2>
-        <p class="text-muted px-3" style="max-width: 400px;">Aplikasi memerlukan koneksi internet aktif. Hubungkan perangkat ke Wi-Fi atau data seluler lalu coba lagi.</p>
+        <p class="text-muted px-3" style="max-width: 400px;">Aplikasi memerlukan koneksi internet aktif. Hubungkan
+            perangkat ke Wi-Fi atau data seluler lalu coba lagi.</p>
         <button onclick="checkConnection()" class="btn btn-primary btn-go px-5 py-2 mt-3">PERIKSA KONEKSI</button>
     </div>
 
@@ -264,7 +272,8 @@
             <div class="hero text-center">
                 <div class="container">
                     <div class="logo-wrapper">
-                        <img src="https://wiring-drier-zestfully.ngrok-free.dev/logo.png" alt="SNA Medika Logo" class="logo-img">
+                        <img src="https://wiring-drier-zestfully.ngrok-free.dev/logo.png" alt="SNA Medika Logo"
+                            class="logo-img">
                     </div>
                     <h1 class="display-6 fw-bold">SNAM PORTAL SYSTEM</h1>
                     <p class="lead mt-2 opacity-75">Pilih aplikasi untuk mulai bekerja</p>
@@ -273,31 +282,34 @@
 
             <div class="container pb-5">
                 <div class="row justify-content-center g-4">
-                                        <div class="col-md-5 col-lg-4">
-                        <div onclick="openApp('https://www.snam110.dpdns.org/kaizen/')" class="card-link p-4 text-center">
+                    <div class="col-md-5 col-lg-4">
+                        <div onclick="openApp('https://www.snam110.dpdns.org/kaizen/')"
+                            class="card-link p-4 text-center">
                             <div class="icon-circle bg-kaizen">💡</div>
                             <h3 class="fw-bold text-dark">Aplikasi KAIZEN</h3>
                             <p class="text-muted">Input ide perbaikan &amp; efisiensi berkelanjutan.</p>
                             <div class="btn btn-primary btn-go w-100 mt-3">MASUK KAIZEN</div>
                         </div>
                     </div>
-                                        <div class="col-md-5 col-lg-4">
-                        <div onclick="openApp('https://www.snam110.dpdns.org/eva/login')" class="card-link p-4 text-center">
+                    <div class="col-md-5 col-lg-4">
+                        <div onclick="openApp('https://www.snam110.dpdns.org/eva/login')"
+                            class="card-link p-4 text-center">
                             <div class="icon-circle bg-eva">📈</div>
                             <h3 class="fw-bold text-dark">Aplikasi EVA</h3>
                             <p class="text-muted">Penilaian Leadership &amp; Culture karyawan.</p>
                             <div class="btn btn-success btn-go w-100 mt-3">MASUK EVA</div>
                         </div>
                     </div>
-                                        <div class="col-md-5 col-lg-4">
-                        <div onclick="openApp('https://www.snam110.dpdns.org/helpdesk/')" class="card-link p-4 text-center">
+                    <div class="col-md-5 col-lg-4">
+                        <div onclick="openApp('https://www.snam110.dpdns.org/helpdesk/')"
+                            class="card-link p-4 text-center">
                             <div class="icon-circle bg-eva">🛠️</div>
                             <h3 class="fw-bold text-dark">Aplikasi Ticketing</h3>
                             <p class="text-muted">Layanan IT, GA, dan Mekanik</p>
                             <div class="btn btn-secondary text-white btn-go w-100 mt-3">MASUK TICKETING</div>
                         </div>
                     </div>
-                                    </div>
+                </div>
 
                 <div class="text-center mt-5 py-4 border-top">
                     <p class="mb-0 text-secondary fw-semibold">PT. SNA Medika - IT Department 2026</p>
@@ -332,22 +344,22 @@
         // Fungsi membuka aplikasi eksternal menggunakan InAppBrowser
         function openApp(url) {
             if (window.cordova && window.cordova.InAppBrowser) {
-                // Buka InAppBrowser dengan menyembunyikan address bar default (location=no)
-                const ref = window.cordova.InAppBrowser.open(url, '_blank', 'location=no,zoom=no,hardwareback=yes,clearcache=yes,clearsessioncache=yes');
+                // Buka InAppBrowser dengan mode fullscreen di iOS (presentationstyle=fullscreen)
+                const ref = window.cordova.InAppBrowser.open(url, '_blank', 'location=no,toolbar=no,zoom=no,hardwareback=yes,clearcache=yes,clearsessioncache=yes,presentationstyle=fullscreen');
 
                 // Deteksi ketika user me-redirect balik ke portal, meminta exit, atau mendownload PDF
-                ref.addEventListener('loadstart', function(event) {
+                ref.addEventListener('loadstart', function (event) {
                     const urlLower = event.url.toLowerCase();
-                    
+
                     if (event.url.includes('portal.eclairs.my.id/exit-app')) {
                         ref.close();
                         exitApplication();
                     } else if (event.url.includes('portal.eclairs.my.id')) {
                         ref.close();
                     } else if (
-                        urlLower.endsWith('.pdf') || 
-                        urlLower.includes('.pdf?') || 
-                        urlLower.includes('download') || 
+                        urlLower.endsWith('.pdf') ||
+                        urlLower.includes('.pdf?') ||
+                        urlLower.includes('download') ||
                         urlLower.includes('export') ||
                         urlLower.includes('print')
                     ) {
@@ -357,25 +369,27 @@
                 });
 
                 // Ketika halaman sukses dimuat, suntikkan header SNAM PORTAL kustom ke halaman sub-aplikasi
-                ref.addEventListener('loadstop', function() {
-                    // Suntikkan CSS Header (tanpa mentransformasi body agar modal tidak rusak)
+                ref.addEventListener('loadstop', function () {
+                    // Suntikkan CSS Header (menggunakan env(safe-area-inset-top) agar aman dari poni iPhone)
                     ref.insertCSS({
                         code: `
                             body {
-                                padding-top: 60px !important;
+                                padding-top: calc(60px + env(safe-area-inset-top, 0px)) !important;
                             }
                             #snam-inapp-header {
                                 position: fixed !important;
                                 top: 0 !important;
                                 left: 0 !important;
                                 width: 100% !important;
-                                height: 60px !important;
+                                height: calc(60px + env(safe-area-inset-top, 0px)) !important;
+                                padding-top: env(safe-area-inset-top, 0px) !important;
                                 background: linear-gradient(135deg, #0d47a1 30%, #0d6efd 100%) !important;
                                 color: white !important;
                                 display: flex !important;
                                 align-items: center !important;
                                 justify-content: space-between !important;
-                                padding: 0 15px !important;
+                                padding-left: 15px !important;
+                                padding-right: 15px !important;
                                 z-index: 2147483647 !important;
                                 box-shadow: 0 2px 10px rgba(0,0,0,0.3) !important;
                                 box-sizing: border-box !important;
@@ -437,14 +451,34 @@
                                 document.documentElement.appendChild(header);
                             }
 
-                            // 2. Geser elemen navigasi/header dan sidebar bawaan web tujuan agar tidak tertutup header portal
+                            // 2. Geser elemen navigasi/header dan sidebar bawaan web tujuan agar tidak tertutup header portal (menyesuaikan safe-area)
                             var headers = document.querySelectorAll('nav, header, .navbar, .main-header, aside, .main-sidebar, .sidebar, .app-sidebar, .aside');
                             headers.forEach(function(el) {
                                 var style = window.getComputedStyle(el);
                                 if ((style.position === 'fixed' || style.position === 'absolute') && style.top === '0px') {
-                                    el.style.setProperty('top', '60px', 'important');
+                                    el.style.setProperty('top', 'calc(60px + env(safe-area-inset-top, 0px))', 'important');
                                 }
                             });
+
+                            // 3. Intercept klik pada semua link download/PDF di dalam web tujuan
+                            document.addEventListener('click', function(e) {
+                                var anchor = e.target.closest('a');
+                                if (anchor && anchor.href) {
+                                    var hrefLower = anchor.href.toLowerCase();
+                                    if (
+                                        hrefLower.endsWith('.pdf') ||
+                                        hrefLower.includes('.pdf?') ||
+                                        anchor.hasAttribute('download') ||
+                                        hrefLower.includes('download') ||
+                                        hrefLower.includes('export') ||
+                                        hrefLower.includes('print')
+                                    ) {
+                                        e.preventDefault();
+                                        // Buka di browser sistem eksternal
+                                        window.open(anchor.href, '_system');
+                                    }
+                                }
+                            }, true);
                         `
                     });
                 });
