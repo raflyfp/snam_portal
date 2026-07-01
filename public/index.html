@@ -88,7 +88,8 @@
             background-color: #e8f5e9;
             color: #388e3c;
         }
-
+    </style>
+    <style>
         body {
             background-color: #f0f2f5;
             font-family: 'Segoe UI', Tahoma, sans-serif;
@@ -449,8 +450,8 @@
                                 document.documentElement.appendChild(header);
                             }
 
-                            // 2. Geser HANYA elemen navigasi/header bawaan web tujuan agar tidak tertutup header portal
-                            var headers = document.querySelectorAll('nav, header, .navbar, .main-header');
+                            // 2. Geser elemen navigasi/header dan sidebar bawaan web tujuan agar tidak tertutup header portal
+                            var headers = document.querySelectorAll('nav, header, .navbar, .main-header, aside, .main-sidebar, .sidebar, .app-sidebar, .aside');
                             headers.forEach(function(el) {
                                 var style = window.getComputedStyle(el);
                                 if ((style.position === 'fixed' || style.position === 'absolute') && style.top === '0px') {
