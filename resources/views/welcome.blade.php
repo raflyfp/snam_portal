@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Portal Aplikasi SNA Medika</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -22,72 +22,6 @@
         body {
             background-color: #f0f2f5;
             font-family: 'Segoe UI', Tahoma, sans-serif;
-        }
-
-        /* Bagian Hero dengan Gradasi Biru */
-        .hero {
-            background: linear-gradient(135deg, #0d47a1 30%, #80deea 100%);
-            color: white;
-            padding: 20px 0;
-            border-radius: 0 0 30px 30px;
-            margin-bottom: 40px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        /* Logo diletakkan di atas tanpa kontainer */
-        .logo-wrapper {
-            margin-bottom: 15px;
-        }
-
-        .logo-img {
-            max-height: 90px;
-            /* Ukuran logo */
-            width: auto;
-            display: block;
-            margin: 0 auto;
-        }
-
-        .card-link {
-            border: none;
-            border-radius: 15px;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            color: inherit;
-            height: 100%;
-            display: block;
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05);
-        }
-
-        .card-link:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
-        }
-
-        .icon-circle {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 20px;
-            font-size: 2.5rem;
-        }
-
-        .bg-kaizen {
-            background-color: #e3f2fd;
-            color: #1976d2;
-        }
-
-        .bg-eva {
-            background-color: #e8f5e9;
-            color: #388e3c;
-        }
-
-    <style>
-        body {
-            background-color: #f0f2f5;
-            font-family: 'Segoe UI', Tahoma, sans-serif;
             margin: 0;
             padding: 0;
             overflow-x: hidden;
@@ -100,13 +34,16 @@
         .portal-header {
             background: linear-gradient(135deg, #0d47a1 30%, #0d6efd 100%);
             color: white;
-            padding: 10px 15px;
+            padding-top: env(safe-area-inset-top, 0px);
+            padding-left: 15px;
+            padding-right: 15px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
             z-index: 1000;
-            height: 60px;
+            height: calc(60px + env(safe-area-inset-top, 0px));
+            box-sizing: border-box;
         }
 
         .header-left {
@@ -354,18 +291,18 @@
                 const ref = window.cordova.InAppBrowser.open(url, '_blank', 'location=no,toolbar=no,zoom=no,hardwareback=yes,clearcache=yes,clearsessioncache=yes,presentationstyle=fullscreen');
 
                 // Deteksi ketika user me-redirect balik ke portal, meminta exit, atau mendownload PDF
-                ref.addEventListener('loadstart', function(event) {
+                ref.addEventListener('loadstart', function (event) {
                     const urlLower = event.url.toLowerCase();
-                    
+
                     if (event.url.includes('portal.eclairs.my.id/exit-app')) {
                         ref.close();
                         exitApplication();
                     } else if (event.url.includes('portal.eclairs.my.id')) {
                         ref.close();
                     } else if (
-                        urlLower.endsWith('.pdf') || 
-                        urlLower.includes('.pdf?') || 
-                        urlLower.includes('download') || 
+                        urlLower.endsWith('.pdf') ||
+                        urlLower.includes('.pdf?') ||
+                        urlLower.includes('download') ||
                         urlLower.includes('export') ||
                         urlLower.includes('print')
                     ) {
@@ -374,8 +311,20 @@
                     }
                 });
 
+                // Mendengarkan pesan dari InAppBrowser (misal klik tombol download)
+                ref.addEventListener('message', function (event) {
+                    try {
+                        const data = typeof event.data === 'string' ? JSON.parse(event.data) : event.data;
+                        if (data && data.action === 'download' && data.url) {
+                            window.cordova.InAppBrowser.open(data.url, '_system');
+                        }
+                    } catch (e) {
+                        console.error('Error parsing message from InAppBrowser:', e);
+                    }
+                });
+
                 // Ketika halaman sukses dimuat, suntikkan header SNAM PORTAL kustom ke halaman sub-aplikasi
-                ref.addEventListener('loadstop', function() {
+                ref.addEventListener('loadstop', function () {
                     // Suntikkan CSS Header (menggunakan env(safe-area-inset-top) agar aman dari poni iPhone)
                     ref.insertCSS({
                         code: `
@@ -480,11 +429,49 @@
                                         hrefLower.includes('print')
                                     ) {
                                         e.preventDefault();
-                                        // Buka di browser sistem eksternal
-                                        window.open(anchor.href, '_system');
+                                        var message = {
+                                            action: 'download',
+                                            url: anchor.href
+                                        };
+                                        if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.cordova_iab) {
+                                            window.webkit.messageHandlers.cordova_iab.postMessage(JSON.stringify(message));
+                                        } else if (window.cordova_iab && window.cordova_iab.postMessage) {
+                                            window.cordova_iab.postMessage(JSON.stringify(message));
+                                        } else {
+                                            window.open(anchor.href, '_system');
+                                        }
                                     }
                                 }
                             }, true);
+
+                            // 4. Override window.open untuk deteksi download/PDF dinamik
+                            var originalWindowOpen = window.open;
+                            window.open = function(url, target, specs) {
+                                if (url) {
+                                    var hrefLower = url.toLowerCase();
+                                    if (
+                                        hrefLower.endsWith('.pdf') ||
+                                        hrefLower.includes('.pdf?') ||
+                                        hrefLower.includes('download') ||
+                                        hrefLower.includes('export') ||
+                                        hrefLower.includes('print')
+                                    ) {
+                                        var message = {
+                                            action: 'download',
+                                            url: url
+                                        };
+                                        if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.cordova_iab) {
+                                            window.webkit.messageHandlers.cordova_iab.postMessage(JSON.stringify(message));
+                                        } else if (window.cordova_iab && window.cordova_iab.postMessage) {
+                                            window.cordova_iab.postMessage(JSON.stringify(message));
+                                        } else {
+                                            originalWindowOpen(url, '_system');
+                                        }
+                                        return null;
+                                    }
+                                }
+                                return originalWindowOpen(url, target, specs);
+                            };
                         `
                     });
                 });
