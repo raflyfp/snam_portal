@@ -111,7 +111,7 @@ jobs:
       # 10. Bangun Proyek Xcode ke file Archive (.xcarchive) dengan Kode Signing Aktif
       - name: Build Xcode Project
         run: |
-          xcodebuild -workspace ios/App/App.xcworkspace \
+          xcodebuild -project ios/App/App.xcodeproj \
                      -scheme App \
                      -sdk iphoneos \
                      -configuration Release \
