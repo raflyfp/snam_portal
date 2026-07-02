@@ -83,6 +83,9 @@ jobs:
 
       # 9. Buat file ExportOptions.plist untuk keperluan ekspor ke IPA
       - name: Create ExportOptions.plist
+        env:
+          TEAM_ID: "63H4H8S4N9" # Gantilah dengan Team ID XL Axiata Anda
+          PROVISIONING_PROFILE_NAME: "XL AXIATA, PT TBK" # Nama profile Anda
         run: |
           cat <<EOF > ios/App/ExportOptions.plist
           <?xml version="1.0" encoding="UTF-8"?>
@@ -98,11 +101,11 @@ jobs:
               <key>stripSwiftSymbols</key>
               <true/>
               <key>teamID</key>
-              <string>63H4H8S4N9</string> <!-- Isi sesuai Team ID XL Axiata Anda (bisa dilihat di Apple Developer Portal / isi profile) -->
+              <string>$TEAM_ID</string> 
               <key>provisioningProfiles</key>
               <dict>
                   <key>com.snamedika.portal</key>
-                  <string>XL AXIATA, PT TBK</string> <!-- Sesuaikan dengan nama profil Anda yang sebenarnya -->
+                  <string>$PROVISIONING_PROFILE_NAME</string> 
               </dict>
           </dict>
           </plist>
@@ -110,11 +113,17 @@ jobs:
 
       # 10. Bangun Proyek Xcode ke file Archive (.xcarchive) dengan Kode Signing Aktif
       - name: Build Xcode Project
+        env:
+          TEAM_ID: "63H4H8S4N9" # Gantilah dengan Team ID XL Axiata Anda
+          PROVISIONING_PROFILE_NAME: "XL AXIATA, PT TBK" # Nama profile Anda
         run: |
           xcodebuild -project ios/App/App.xcodeproj \
                      -scheme App \
                      -sdk iphoneos \
                      -configuration Release \
+                     DEVELOPMENT_TEAM=$TEAM_ID \
+                     CODE_SIGN_STYLE=Manual \
+                     PROVISIONING_PROFILE_SPECIFIER="$PROVISIONING_PROFILE_NAME" \
                      archive -archivePath ios/App/App.xcarchive
 
       # 11. Ekspor Archive ke file IPA menggunakan ExportOptions
