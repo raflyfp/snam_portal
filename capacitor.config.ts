@@ -1,7 +1,7 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-    appId: 'com.xl.MyXL.Giant-staging',
+    appId: 'com.xl.MyXL.Giant_staging',
     appName: 'SNA Medika Portal',
 
     webDir: 'public',
