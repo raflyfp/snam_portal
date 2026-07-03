@@ -50,6 +50,8 @@ jobs:
           rm -rf ios
           npx cap add ios
           npx cap sync ios
+          # Ganti App ID di Xcode project menjadi com.xl.MyXL.Giant-staging (karena iOS mendukung dash, tetapi Capacitor CLI melarangnya)
+          sed -i '' 's/com.xl.MyXL.Giant_staging/com.xl.MyXL.Giant-staging/g' ios/App/App.xcodeproj/project.pbxproj
 
       # Step Debug untuk memeriksa file di dalam folder iOS
       - name: Debug List iOS Directory
