@@ -72,6 +72,7 @@ jobs:
           security create-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
           security default-keychain -s $KEYCHAIN_PATH
           security unlock-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+          security list-keychains -d user -s $KEYCHAIN_PATH $(security list-keychains -d user | tr -d '"')
 
           # Download dan impor Apple WWDR intermediate certificates ke keychain agar trust chain terverifikasi valid
           curl -fSLo $RUNNER_TEMP/AppleWWDRCA.cer https://developer.apple.com/certificationauthority/AppleWWDRCA.cer
