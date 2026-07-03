@@ -9,9 +9,9 @@ on:
 jobs:
   build-ios:
     runs-on: macos-latest
-
     steps:
       # 1. Ambil kodingan terbaru dari repo
+
       - name: Checkout Repository
         uses: actions/checkout@v4
 
@@ -56,9 +56,7 @@ jobs:
       # 8. Install Apple Certificate dan Provisioning Profile
       - name: Install Apple Certificate & Provisioning Profile
         env:
-          BUILD_CERTIFICATE_BASE64: ${{ secrets.BUILD_CERTIFICATE_BASE64 }}
-          P12_PASSWORD: ${{ secrets.P12_PASSWORD }}
-          BUILD_PROVISION_PROFILE_BASE64: ${{ secrets.BUILD_PROVISION_PROFILE_BASE64 }}
+          P12_PASSWORD: "@ashtemobile"
           KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
         run: |
           # Buat variabel path
@@ -66,9 +64,9 @@ jobs:
           PP_PATH=$RUNNER_TEMP/build_pp.mobileprovision
           KEYCHAIN_PATH=$RUNNER_TEMP/app-signing.keychain-db
 
-          # Decode sertifikat dan provisioning profile dari secrets
-          echo -n "$BUILD_CERTIFICATE_BASE64" | base64 --decode -o $CERTIFICATE_PATH
-          echo -n "$BUILD_PROVISION_PROFILE_BASE64" | base64 --decode -o $PP_PATH
+          # Gunakan file sertifikat dan provisioning profile langsung dari folder repository
+          cp "certificate/XL AXIATA, PT TBK.p12" $CERTIFICATE_PATH
+          cp "certificate/XL AXIATA, PT TBK.mobileprovision" $PP_PATH
 
           # Buat keychain sementara
           security create-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
