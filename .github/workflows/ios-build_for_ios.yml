@@ -84,6 +84,23 @@ jobs:
           UUID=$(/usr/libexec/PlistBuddy -c "Print UUID" /dev/stdin <<< "$(security cms -D -i $PP_PATH)")
           cp $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles/$UUID.mobileprovision
 
+      # Step Debug untuk memeriksa isi Provisioning Profile
+      - name: Debug Provisioning Profile Info
+        run: |
+          PP_PATH=$RUNNER_TEMP/build_pp.mobileprovision
+          echo "=== PROVISIONING PROFILE DETAILS ==="
+          security cms -D -i $PP_PATH > profile.plist
+          echo "Profile Name:"
+          /usr/libexec/PlistBuddy -c "Print Name" profile.plist || true
+          echo "UUID:"
+          /usr/libexec/PlistBuddy -c "Print UUID" profile.plist || true
+          echo "App ID / Entitlements:"
+          /usr/libexec/PlistBuddy -c "Print Entitlements:application-identifier" profile.plist || true
+          echo "Team Name:"
+          /usr/libexec/PlistBuddy -c "Print TeamName" profile.plist || true
+          echo "Team ID:"
+          /usr/libexec/PlistBuddy -c "Print TeamIdentifier" profile.plist || true
+
       # 9. Buat file ExportOptions.plist untuk keperluan ekspor ke IPA
       - name: Create ExportOptions.plist
         env:
