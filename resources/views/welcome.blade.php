@@ -265,10 +265,11 @@
                 ref.addEventListener('loadstart', function (event) {
                     const urlLower = event.url.toLowerCase();
 
-                    if (event.url.includes('portal.eclairs.my.id/exit-app')) {
+                    const portalBaseUrl = '{{ url('/') }}';
+                    if (event.url.includes(portalBaseUrl + '/exit-app')) {
                         ref.close();
                         exitApplication();
-                    } else if (event.url.includes('portal.eclairs.my.id')) {
+                    } else if (event.url === portalBaseUrl || event.url === portalBaseUrl + '/') {
                         ref.close();
                     } else if (
                         urlLower.endsWith('.pdf') ||
@@ -366,12 +367,12 @@
                                 header.id = 'snam-inapp-header';
                                 header.innerHTML = \`
                                     <div class="snam-logo-container">
-                                        <img src="https://portal.eclairs.my.id/logo.png" class="snam-logo" />
+                                        <img src="{{ asset('logo.png') }}" class="snam-logo" />
                                         <span class="snam-title">SNAM PORTAL</span>
                                     </div>
                                     <div class="snam-actions">
-                                        <button class="btn-snam-action" onclick="window.location.href='https://portal.eclairs.my.id'">Menu Portal</button>
-                                        <button class="btn-snam-action btn-snam-exit" onclick="window.location.href='https://portal.eclairs.my.id/exit-app'">Exit</button>
+                                        <button class="btn-snam-action" onclick="window.location.href='{{ url('/') }}'">Menu Portal</button>
+                                        <button class="btn-snam-action btn-snam-exit" onclick="window.location.href='{{ url('/') }}/exit-app'">Exit</button>
                                     </div>
                                 \`;
                                 document.documentElement.appendChild(header);

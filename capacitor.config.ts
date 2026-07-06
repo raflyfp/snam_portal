@@ -8,7 +8,7 @@ const config: CapacitorConfig = {
 
 
     server: {
-        url: 'https://portal.eclairs.my.id/',
+        url: 'https://www.snam110.dpdns.org/portalsnam/',
         cleartext: true,
         // errorPath: 'index.html',
         allowNavigation: [
