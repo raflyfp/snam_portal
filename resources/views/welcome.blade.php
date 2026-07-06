@@ -175,37 +175,7 @@
 
 <body>
 
-    @php
-    $apps = [
-        [
-            'name' => 'Aplikasi KAIZEN',
-            'url' => 'https://www.snam110.dpdns.org/kaizen/',
-            'icon' => '💡',
-            'desc' => 'Input ide perbaikan & efisiensi berkelanjutan.',
-            'btn_text' => 'MASUK KAIZEN',
-            'btn_class' => 'btn-primary',
-            'bg_class' => 'bg-kaizen'
-        ],
-        [
-            'name' => 'Aplikasi EVA',
-            'url' => 'https://www.snam110.dpdns.org/eva/login',
-            'icon' => '📈',
-            'desc' => 'Penilaian Leadership & Culture karyawan.',
-            'btn_text' => 'MASUK EVA',
-            'btn_class' => 'btn-success',
-            'bg_class' => 'bg-eva'
-        ],
-        [
-            'name' => 'Aplikasi Ticketing',
-            'url' => 'https://www.snam110.dpdns.org/helpdesk/',
-            'icon' => '🛠️',
-            'desc' => 'Layanan IT, GA, dan Mekanik',
-            'btn_text' => 'MASUK TICKETING',
-            'btn_class' => 'btn-secondary text-white',
-            'bg_class' => 'bg-eva'
-        ]
-    ];
-    @endphp
+
 
     <!-- Persistent Header -->
     <header class="portal-header">
@@ -256,6 +226,7 @@
 
                 <div class="text-center mt-5 py-4 border-top">
                     <p class="mb-0 text-secondary fw-semibold">PT. SNA Medika - IT Department 2026</p>
+                    <a href="/privacy-policy" class="text-decoration-none text-secondary d-inline-block mt-2" style="font-size: 0.85rem;">Kebijakan Privasi (Privacy Policy)</a>
                 </div>
             </div>
         </div>
