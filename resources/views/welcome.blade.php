@@ -345,8 +345,22 @@
                     // Suntikkan CSS Header
                     ref.insertCSS({
                         code: `
+                            html {
+                                height: 100% !important;
+                                width: 100% !important;
+                                margin: 0 !important;
+                                padding: 0 !important;
+                            }
                             body {
-                                padding-top: calc(60px + ${safeAreaTop}) !important;
+                                transform: translateY(calc(60px + ${safeAreaTop})) !important;
+                                height: calc(100vh - 60px - ${safeAreaTop}) !important;
+                                position: absolute !important;
+                                top: 0 !important;
+                                left: 0 !important;
+                                width: 100% !important;
+                                margin: 0 !important;
+                                box-sizing: border-box !important;
+                                overflow-y: auto !important;
                             }
                             #snam-inapp-header {
                                 position: fixed !important;
@@ -423,15 +437,8 @@
                                 document.documentElement.appendChild(header);
                             }
 
-                            // 2. Geser elemen navigasi/header dan sidebar bawaan web tujuan agar tidak tertutup header portal (menyesuaikan safe-area)
-                            var headers = document.querySelectorAll('nav, header, .navbar, .main-header, aside, .main-sidebar, .sidebar, .app-sidebar, .aside');
-                            headers.forEach(function(el) {
-                                var style = window.getComputedStyle(el);
-                                if ((style.position === 'fixed' || style.position === 'absolute') && style.top === '0px') {
-                                    el.style.setProperty('top', 'calc(60px + ${safeAreaTop})', 'important');
-                                }
-                            });
-
+                            // 2. Element navigasi/header bawaan web tujuan tidak perlu digeser manual karena body sudah ditranslasi ke bawah secara otomatis
+                            
                             // 3. Intercept klik pada semua link download/PDF di dalam web tujuan
                             document.addEventListener('click', function(e) {
                                 var anchor = e.target.closest('a');
