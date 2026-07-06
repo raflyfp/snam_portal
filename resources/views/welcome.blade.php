@@ -258,20 +258,60 @@
         // Fungsi membuka aplikasi eksternal menggunakan InAppBrowser
         function openApp(url) {
             if (window.cordova && window.cordova.InAppBrowser) {
+                // Sembunyikan menu portal agar tidak membayang/kelihatan di latar belakang
+                if (menuGrid) {
+                    menuGrid.style.display = 'none';
+                }
+
                 // Buka InAppBrowser dengan mode fullscreen di iOS (presentationstyle=fullscreen)
                 const ref = window.cordova.InAppBrowser.open(url, '_blank', 'location=no,toolbar=no,zoom=no,hardwareback=yes,clearcache=yes,clearsessioncache=yes,presentationstyle=fullscreen');
 
+                // Tampilkan kembali menu portal ketika InAppBrowser ditutup
+                ref.addEventListener('exit', function() {
+                    if (menuGrid) {
+                        menuGrid.style.display = 'block';
+                    }
+                });
+
                 // Deteksi ketika user me-redirect balik ke portal, meminta exit, atau mendownload PDF
                 ref.addEventListener('loadstart', function (event) {
-                    const urlLower = event.url.toLowerCase();
+                    const urlLower = event.url.toLowerCase().trim();
 
-                    const portalBaseUrl = '{{ url('/') }}';
-                    if (event.url.includes(portalBaseUrl + '/exit-app')) {
-                        ref.close();
-                        exitApplication();
-                    } else if (event.url === portalBaseUrl || event.url === portalBaseUrl + '/') {
-                        ref.close();
-                    } else if (
+                    // Bandingkan dengan aman menggunakan pencocokan path dan query
+                    try {
+                        const eventUrlObj = new URL(event.url);
+                        const eventPath = eventUrlObj.pathname.toLowerCase().replace(/\/$/, "");
+                        
+                        const portalUrlObj = new URL('{{ url('/') }}');
+                        const portalPath = portalUrlObj.pathname.toLowerCase().replace(/\/$/, "");
+
+                        if (eventPath.includes('/exit-app') || urlLower.includes('/exit-app')) {
+                            ref.close();
+                            exitApplication();
+                            return;
+                        }
+
+                        // Jika path tujuan adalah homepage portal, segera tutup InAppBrowser agar kembali ke aplikasi utama
+                        if (eventPath === portalPath || eventPath === portalPath + '/index.php' || eventPath === portalPath + '/public') {
+                            ref.close();
+                            return;
+                        }
+                    } catch (e) {
+                        // Fallback manual jika URL parsing gagal
+                        const portalBaseUrl = '{{ url('/') }}'.toLowerCase().trim().replace(/\/$/, "");
+                        const cleanEventUrl = urlLower.replace(/\/$/, "");
+                        
+                        if (cleanEventUrl.includes('/exit-app')) {
+                            ref.close();
+                            exitApplication();
+                            return;
+                        } else if (cleanEventUrl === portalBaseUrl || cleanEventUrl === portalBaseUrl + '/index.php' || cleanEventUrl === portalBaseUrl + '/public') {
+                            ref.close();
+                            return;
+                        }
+                    }
+
+                    if (
                         urlLower.endsWith('.pdf') ||
                         urlLower.includes('.pdf?') ||
                         urlLower.includes('download') ||
@@ -297,19 +337,24 @@
 
                 // Ketika halaman sukses dimuat, suntikkan header SNAM PORTAL kustom ke halaman sub-aplikasi
                 ref.addEventListener('loadstop', function () {
-                    // Suntikkan CSS Header (menggunakan env(safe-area-inset-top) agar aman dari poni iPhone)
+                    // Deteksi platform iOS
+                    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+                    // Gunakan nilai safe area top minimal 44px di iOS jika env() mengembalikan 0px (karena tidak ada viewport-fit=cover di sub-aplikasi)
+                    const safeAreaTop = isIOS ? 'max(44px, env(safe-area-inset-top, 0px))' : 'env(safe-area-inset-top, 0px)';
+
+                    // Suntikkan CSS Header
                     ref.insertCSS({
                         code: `
                             body {
-                                padding-top: calc(60px + env(safe-area-inset-top, 0px)) !important;
+                                padding-top: calc(60px + ${safeAreaTop}) !important;
                             }
                             #snam-inapp-header {
                                 position: fixed !important;
                                 top: 0 !important;
                                 left: 0 !important;
                                 width: 100% !important;
-                                height: calc(60px + env(safe-area-inset-top, 0px)) !important;
-                                padding-top: env(safe-area-inset-top, 0px) !important;
+                                height: calc(60px + ${safeAreaTop}) !important;
+                                padding-top: ${safeAreaTop} !important;
                                 background: linear-gradient(135deg, #0d47a1 30%, #0d6efd 100%) !important;
                                 color: white !important;
                                 display: flex !important;
@@ -383,7 +428,7 @@
                             headers.forEach(function(el) {
                                 var style = window.getComputedStyle(el);
                                 if ((style.position === 'fixed' || style.position === 'absolute') && style.top === '0px') {
-                                    el.style.setProperty('top', 'calc(60px + env(safe-area-inset-top, 0px))', 'important');
+                                    el.style.setProperty('top', 'calc(60px + ${safeAreaTop})', 'important');
                                 }
                             });
 
