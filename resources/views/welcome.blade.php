@@ -180,7 +180,7 @@
     <!-- Persistent Header -->
     <header class="portal-header">
         <div class="header-left">
-            <img src="{{ asset('logo.png') }}" alt="Logo" class="header-logo">
+            <img src="{{ asset('logo1.png') }}" alt="Logo" class="header-logo">
             <h1 class="header-title">SNAM PORTAL</h1>
         </div>
         <div class="header-actions">
@@ -203,7 +203,7 @@
             <div class="hero text-center">
                 <div class="container">
                     <div class="logo-wrapper">
-                        <img src="{{ asset('logo.png') }}" alt="SNA Medika Logo" class="logo-img">
+                        <img src="{{ asset('logo1.png') }}" alt="SNA Medika Logo" class="logo-img">
                     </div>
                     <h1 class="display-6 fw-bold">SNAM PORTAL SYSTEM</h1>
                     <p class="lead mt-2 opacity-75">Pilih aplikasi untuk mulai bekerja</p>
@@ -215,7 +215,7 @@
                     @foreach($apps as $app)
                     <div class="col-md-5 col-lg-4">
                         <div onclick="openApp('{{ $app['url'] }}')" class="card-link p-4 text-center">
-                            <div class="icon-circle {{ $app['bg_class'] }}">{{ $app['icon'] }}</div>
+                            <div class="icon-circle {{ $app['bg_class'] }}">{!! $app['icon'] !!}</div>
                             <h3 class="fw-bold text-dark">{{ $app['name'] }}</h3>
                             <p class="text-muted">{{ $app['desc'] }}</p>
                             <div class="btn {{ $app['btn_class'] }} btn-go w-100 mt-3">{{ $app['btn_text'] }}</div>

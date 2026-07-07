@@ -6,13 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Portal Aplikasi SNA Medika</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="preload" as="style" href="https://wiring-drier-zestfully.ngrok-free.dev/build/assets/app-7T_arPNu.css" />
-    <link rel="modulepreload" as="script"
-        href="https://wiring-drier-zestfully.ngrok-free.dev/build/assets/app-CIomGrQN.js" />
-    <link rel="stylesheet" href="https://wiring-drier-zestfully.ngrok-free.dev/build/assets/app-7T_arPNu.css" />
-    <script type="module" src="https://wiring-drier-zestfully.ngrok-free.dev/build/assets/app-CIomGrQN.js"></script>
-    <link rel="manifest" href="https://wiring-drier-zestfully.ngrok-free.dev/build/manifest.webmanifest"
-        crossorigin="use-credentials">
+    <link rel="preload" as="style" href="https://www.snam110.dpdns.org/portalsnam/build/assets/app-7T_arPNu.css" /><link rel="modulepreload" as="script" href="https://www.snam110.dpdns.org/portalsnam/build/assets/app-CIomGrQN.js" /><link rel="stylesheet" href="https://www.snam110.dpdns.org/portalsnam/build/assets/app-7T_arPNu.css" /><script type="module" src="https://www.snam110.dpdns.org/portalsnam/build/assets/app-CIomGrQN.js"></script>    <link rel="manifest" href="https://www.snam110.dpdns.org/portalsnam/build/manifest.webmanifest" crossorigin="use-credentials">
     <meta name="theme-color" content="#0d6efd">
     <script>
         if ('serviceWorker' in navigator) {
@@ -181,10 +175,11 @@
 <body>
 
 
+
     <!-- Persistent Header -->
     <header class="portal-header">
         <div class="header-left">
-            <img src="https://wiring-drier-zestfully.ngrok-free.dev/logo.png" alt="Logo" class="header-logo">
+            <img src="https://www.snam110.dpdns.org/portalsnam/logo.png" alt="Logo" class="header-logo">
             <h1 class="header-title">SNAM PORTAL</h1>
         </div>
         <div class="header-actions">
@@ -193,13 +188,10 @@
     </header>
 
     <!-- Overlay Offline -->
-    <div id="offline-overlay"
-        style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #ffffff; z-index: 9999; justify-content: center; align-items: center; flex-direction: column; text-align: center; padding: 20px;">
-        <div class="icon-circle bg-kaizen" style="font-size: 4rem; width: 120px; height: 120px; margin-bottom: 25px;">📶
-        </div>
+    <div id="offline-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #ffffff; z-index: 9999; justify-content: center; align-items: center; flex-direction: column; text-align: center; padding: 20px;">
+        <div class="icon-circle bg-kaizen" style="font-size: 4rem; width: 120px; height: 120px; margin-bottom: 25px;">📶</div>
         <h2 class="fw-bold text-dark">Koneksi Internet Terputus</h2>
-        <p class="text-muted px-3" style="max-width: 400px;">Aplikasi memerlukan koneksi internet aktif. Hubungkan
-            perangkat ke Wi-Fi atau data seluler lalu coba lagi.</p>
+        <p class="text-muted px-3" style="max-width: 400px;">Aplikasi memerlukan koneksi internet aktif. Hubungkan perangkat ke Wi-Fi atau data seluler lalu coba lagi.</p>
         <button onclick="checkConnection()" class="btn btn-primary btn-go px-5 py-2 mt-3">PERIKSA KONEKSI</button>
     </div>
 
@@ -210,8 +202,7 @@
             <div class="hero text-center">
                 <div class="container">
                     <div class="logo-wrapper">
-                        <img src="https://wiring-drier-zestfully.ngrok-free.dev/logo.png" alt="SNA Medika Logo"
-                            class="logo-img">
+                        <img src="https://www.snam110.dpdns.org/portalsnam/logo.png" alt="SNA Medika Logo" class="logo-img">
                     </div>
                     <h1 class="display-6 fw-bold">SNAM PORTAL SYSTEM</h1>
                     <p class="lead mt-2 opacity-75">Pilih aplikasi untuk mulai bekerja</p>
@@ -220,37 +211,11 @@
 
             <div class="container pb-5">
                 <div class="row justify-content-center g-4">
-                    <div class="col-md-5 col-lg-4">
-                        <div onclick="openApp('https://www.snam110.dpdns.org/kaizen/')"
-                            class="card-link p-4 text-center">
-                            <div class="icon-circle bg-kaizen">💡</div>
-                            <h3 class="fw-bold text-dark">Aplikasi KAIZEN</h3>
-                            <p class="text-muted">Input ide perbaikan &amp; efisiensi berkelanjutan.</p>
-                            <div class="btn btn-primary btn-go w-100 mt-3">MASUK KAIZEN</div>
-                        </div>
-                    </div>
-                    <div class="col-md-5 col-lg-4">
-                        <div onclick="openApp('https://www.snam110.dpdns.org/eva/login')"
-                            class="card-link p-4 text-center">
-                            <div class="icon-circle bg-eva">📈</div>
-                            <h3 class="fw-bold text-dark">Aplikasi EVA</h3>
-                            <p class="text-muted">Penilaian Leadership &amp; Culture karyawan.</p>
-                            <div class="btn btn-success btn-go w-100 mt-3">MASUK EVA</div>
-                        </div>
-                    </div>
-                    <div class="col-md-5 col-lg-4">
-                        <div onclick="openApp('https://www.snam110.dpdns.org/helpdesk/')"
-                            class="card-link p-4 text-center">
-                            <div class="icon-circle bg-eva">🛠️</div>
-                            <h3 class="fw-bold text-dark">Aplikasi Ticketing</h3>
-                            <p class="text-muted">Layanan IT, GA, dan Mekanik</p>
-                            <div class="btn btn-secondary text-white btn-go w-100 mt-3">MASUK TICKETING</div>
-                        </div>
-                    </div>
-                </div>
+                                    </div>
 
                 <div class="text-center mt-5 py-4 border-top">
                     <p class="mb-0 text-secondary fw-semibold">PT. SNA Medika - IT Department 2026</p>
+                    <a href="/privacy-policy" class="text-decoration-none text-secondary d-inline-block mt-2" style="font-size: 0.85rem;">Kebijakan Privasi (Privacy Policy)</a>
                 </div>
             </div>
         </div>
@@ -279,6 +244,7 @@
             }
         }
 
+        // Fungsi membuka aplikasi eksternal menggunakan InAppBrowser
         function openApp(url) {
             if (window.cordova && window.cordova.InAppBrowser) {
                 // Buka InAppBrowser dengan mode fullscreen di iOS (presentationstyle=fullscreen)
@@ -288,10 +254,11 @@
                 ref.addEventListener('loadstart', function (event) {
                     const urlLower = event.url.toLowerCase();
 
-                    if (event.url.includes('www.snam110.dpdns.org/portalsnam/exit-app')) {
+                    const portalBaseUrl = 'https://www.snam110.dpdns.org/portalsnam';
+                    if (event.url.includes(portalBaseUrl + '/exit-app')) {
                         ref.close();
                         exitApplication();
-                    } else if (event.url.includes('www.snam110.dpdns.org/portalsnam')) {
+                    } else if (event.url === portalBaseUrl || event.url === portalBaseUrl + '/') {
                         ref.close();
                     } else if (
                         urlLower.endsWith('.pdf') ||
