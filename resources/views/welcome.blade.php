@@ -427,7 +427,7 @@
                                 header.id = 'snam-inapp-header';
                                 header.innerHTML = \`
                                     <div class="snam-logo-container">
-                                        <img src="{{ asset('logo.png') }}" class="snam-logo" />
+                                        <img src="{{ asset('logo1.png') }}" class="snam-logo" />
                                         <span class="snam-title">SNAM PORTAL</span>
                                     </div>
                                     <div class="snam-actions">
