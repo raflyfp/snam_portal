@@ -184,6 +184,7 @@
             <h1 class="header-title">SNAM PORTAL</h1>
         </div>
         <div class="header-actions">
+            <!-- <a href="{{ route('admin.index') }}" class="btn-header d-inline-flex align-items-center text-decoration-none">Admin Panel</a> -->
             <button class="btn-header btn-exit" onclick="exitApplication()">Exit</button>
         </div>
     </header>
