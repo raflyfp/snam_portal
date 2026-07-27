@@ -54,7 +54,7 @@
 
         .table-responsive {
             border-radius: 12px;
-            overflow: hidden;
+            overflow-x: auto;
         }
 
         .table thead {
@@ -194,8 +194,60 @@
             </div>
         @endif
 
-        <!-- Card Container -->
-        <div class="card card-custom p-4">
+        <!-- Traffic Stats Dashboard -->
+        <div class="row g-4 mb-5">
+            <!-- Card Total Hits -->
+            <div class="col-md-4">
+                <div class="card card-custom p-4 h-100 d-flex flex-row align-items-center gap-3">
+                    <div class="rounded-4 p-3 bg-primary bg-opacity-10 text-primary d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                          <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
+                          <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h6 class="text-uppercase text-secondary fw-semibold small m-0" style="font-size: 0.75rem; letter-spacing: 0.5px;">Total Kunjungan Portal</h6>
+                        <h3 class="fw-bold m-0 mt-1 text-dark">{{ number_format($totalHits) }}</h3>
+                        <span class="text-muted" style="font-size: 0.8rem;">Total hits ke halaman utama</span>
+                    </div>
+                </div>
+            </div>
+            <!-- Card Unique Visitors -->
+            <div class="col-md-4">
+                <div class="card card-custom p-4 h-100 d-flex flex-row align-items-center gap-3">
+                    <div class="rounded-4 p-3 bg-success bg-opacity-10 text-success d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-people-fill" viewBox="0 0 16 16">
+                          <path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H6zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-5.784 6A2.238 2.238 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.325 6.325 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1h4.216zM4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h6 class="text-uppercase text-secondary fw-semibold small m-0" style="font-size: 0.75rem; letter-spacing: 0.5px;">Pengunjung Unik</h6>
+                        <h3 class="fw-bold m-0 mt-1 text-dark">{{ number_format($uniqueVisitors) }}</h3>
+                        <span class="text-muted" style="font-size: 0.8rem;">Keunikan berdasarkan alamat IP</span>
+                    </div>
+                </div>
+            </div>
+            <!-- Card Total App Clicks -->
+            <div class="col-md-4">
+                <div class="card card-custom p-4 h-100 d-flex flex-row align-items-center gap-3">
+                    <div class="rounded-4 p-3 bg-warning bg-opacity-10 text-warning d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-cursor-fill" viewBox="0 0 16 16">
+                          <path d="M14.082 2.182a.5.5 0 0 1 .103.557L8.528 15.467a.5.5 0 0 1-.917-.007L5.57 10.694.803 8.652a.5.5 0 0 1-.006-.916l12.728-5.657a.5.5 0 0 1 .556.103z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h6 class="text-uppercase text-secondary fw-semibold small m-0" style="font-size: 0.75rem; letter-spacing: 0.5px;">Total Akses Aplikasi</h6>
+                        <h3 class="fw-bold m-0 mt-1 text-dark">{{ number_format($totalClicks) }}</h3>
+                        <span class="text-muted" style="font-size: 0.8rem;">Total klik tombol masuk aplikasi</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <!-- Left Side: Apps Management -->
+            <div class="col-lg-8">
+                <div class="card card-custom p-4">
             <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-3 mb-4">
                 <div>
                     <h3 class="fw-bold m-0">Daftar Aplikasi Portal</h3>
@@ -290,6 +342,50 @@
                         @endforelse
                     </tbody>
                 </table>
+            </div>
+            </div>
+        </div>
+
+        <!-- Right Side: Apps Popularity Ranking -->
+        <div class="col-lg-4">
+            <div class="card card-custom p-4 h-100">
+                <div class="mb-4">
+                    <h3 class="fw-bold m-0">Aplikasi Terpopuler</h3>
+                    <p class="text-muted m-0 mt-1" style="font-size: 0.9rem;">Peringkat akses aplikasi portal.</p>
+                </div>
+
+                <div class="d-flex flex-column gap-4">
+                    @forelse ($appStats as $index => $stat)
+                        @php
+                            $percentage = $totalClicks > 0 ? round(($stat->total_clicks / $totalClicks) * 100) : 0;
+                        @endphp
+                        <div>
+                            <div class="d-flex align-items-center justify-content-between mb-2">
+                                <div class="d-flex align-items-center gap-2">
+                                    <span class="badge bg-light text-dark border d-flex align-items-center justify-content-center fw-bold" style="width: 28px; height: 28px; border-radius: 50%; font-size: 0.85rem;">
+                                        {{ $index + 1 }}
+                                    </span>
+                                    <div class="app-icon-preview {{ $stat->bg_class }}" style="width: 32px; height: 32px; font-size: 1rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: none;">
+                                        {!! $stat->icon !!}
+                                    </div>
+                                    <span class="fw-bold text-dark" style="font-size: 0.95rem;">{{ $stat->name }}</span>
+                                </div>
+                                <div class="text-end">
+                                    <span class="fw-bold text-dark d-block" style="font-size: 0.9rem;">{{ number_format($stat->total_clicks) }} Klik</span>
+                                    <small class="text-muted" style="font-size: 0.75rem;">{{ number_format($stat->unique_users) }} User Unik</small>
+                                </div>
+                            </div>
+                            <div class="progress" style="height: 6px; border-radius: 3px; background-color: #f1f5f9;">
+                                <div class="progress-bar bg-primary" role="progressbar" style="width: {{ $percentage }}%" aria-valuenow="{{ $percentage }}" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                    @empty
+                        <div class="text-center py-5 text-muted">
+                            <div class="fs-4 mb-2">📊</div>
+                            Belum ada data aktivitas klik aplikasi.
+                        </div>
+                    @endforelse
+                </div>
             </div>
         </div>
     </div>

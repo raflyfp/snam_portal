@@ -215,7 +215,7 @@
                 <div class="row justify-content-center g-4">
                     @foreach($apps as $app)
                     <div class="col-md-5 col-lg-4">
-                        <div onclick="openApp('{{ $app['url'] }}')" class="card-link p-4 text-center">
+                        <div onclick="openApp('{{ $app['url'] }}', {{ $app['id'] }})" class="card-link p-4 text-center">
                             <div class="icon-circle {{ $app['bg_class'] }}">{!! $app['icon'] !!}</div>
                             <h3 class="fw-bold text-dark">{{ $app['name'] }}</h3>
                             <p class="text-muted">{{ $app['desc'] }}</p>
@@ -257,7 +257,10 @@
         }
 
         // Fungsi membuka aplikasi eksternal menggunakan InAppBrowser
-        function openApp(url) {
+        function openApp(url, appId) {
+            if (appId) {
+                fetch('{{ url("/click-app") }}/' + appId).catch(err => console.error('Tracking error:', err));
+            }
             if (window.cordova && window.cordova.InAppBrowser) {
                 // Sembunyikan menu portal agar tidak membayang/kelihatan di latar belakang
                 if (menuGrid) {

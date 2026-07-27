@@ -16,7 +16,9 @@ const config: CapacitorConfig = {
             'snam110.dpdns.org',
             'www.snam110.dpdns.org',
             '*.eclairs.my.id',
-            'portal.eclairs.my.id'
+            'portal.eclairs.my.id',
+            '*.sinaraya.co.id',
+            '*.atena.id'
         ]
     }
 
