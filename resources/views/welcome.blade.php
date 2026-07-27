@@ -268,7 +268,7 @@
                 }
 
                 // Buka InAppBrowser dengan mode fullscreen di iOS (presentationstyle=fullscreen)
-                const ref = window.cordova.InAppBrowser.open(url, '_blank', 'location=no,toolbar=no,zoom=no,hardwareback=yes,clearcache=yes,clearsessioncache=yes,presentationstyle=fullscreen');
+                const ref = window.cordova.InAppBrowser.open(url, '_blank', 'location=no,toolbar=no,zoom=no,hardwareback=yes,clearcache=yes,clearsessioncache=yes,presentationstyle=fullscreen,mixedcontentmode=always');
 
                 // Tampilkan kembali menu portal ketika InAppBrowser ditutup
                 ref.addEventListener('exit', function() {

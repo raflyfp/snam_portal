@@ -248,7 +248,7 @@
         function openApp(url) {
             if (window.cordova && window.cordova.InAppBrowser) {
                 // Buka InAppBrowser dengan mode fullscreen di iOS (presentationstyle=fullscreen)
-                const ref = window.cordova.InAppBrowser.open(url, '_blank', 'location=no,toolbar=no,zoom=no,hardwareback=yes,clearcache=yes,clearsessioncache=yes,presentationstyle=fullscreen');
+                const ref = window.cordova.InAppBrowser.open(url, '_blank', 'location=no,toolbar=no,zoom=no,hardwareback=yes,clearcache=yes,clearsessioncache=yes,presentationstyle=fullscreen,mixedcontentmode=always');
 
                 // Deteksi ketika user me-redirect balik ke portal, meminta exit, atau mendownload PDF
                 ref.addEventListener('loadstart', function (event) {
